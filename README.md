@@ -144,8 +144,8 @@ REACT_APP_DEFAULT_THEME=light
 
 1. **Clone the repository**
 ```bash
-git clone https://github.com/yourusername/rfid-cloud-system.git
-cd rfid-cloud-system
+git clone https://github.com/TadashiJei/Impinj-RFID-System/blob/Web-Application.git
+cd Web-Application
 ```
 
 2. **Install Backend Dependencies**
