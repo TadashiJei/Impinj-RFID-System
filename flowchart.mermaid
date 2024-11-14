@@ -1,0 +1,91 @@
+graph TB
+    subgraph Client ["Frontend (React)"]
+        UI[User Interface]
+        Redux[Redux Store]
+        WSClient[WebSocket Client]
+        Components[React Components]
+        APIClient[API Client]
+        
+        UI --> Redux
+        UI --> Components
+        Components --> APIClient
+        Components --> WSClient
+    end
+
+    subgraph Server ["Backend (Node.js)"]
+        API[API Layer]
+        WSServer[WebSocket Server]
+        
+        subgraph Core ["Core Services"]
+            RFIDService[RFID Service]
+            PrepService[Preparation Service]
+            DispatchService[Dispatch Service]
+            ReturnService[Return Service]
+            CheckInService[Check-in Service]
+            SettingsService[Settings Service]
+        end
+        
+        subgraph Integration ["Integration Layer"]
+            CSVExport[CSV Export]
+            FTPClient[FTP Client]
+            HireTrackNX[HireTrack NX Integration]
+        end
+        
+        subgraph Data ["Data Layer"]
+            Models[Database Models]
+            Cache[Redis Cache]
+            FileStorage[File Storage]
+        end
+    end
+
+    subgraph Hardware ["RFID Hardware"]
+        Reader[Impinj R700 Reader]
+        Antennas[RFID Antennas]
+        Tags[RFID Tags]
+    end
+
+    subgraph External ["External Systems"]
+        HireTrack[HireTrack NX]
+        FTP[FTP Server]
+    end
+
+    %% Client to Server Connections
+    APIClient --> API
+    WSClient --> WSServer
+
+    %% API Layer Connections
+    API --> Core
+    WSServer --> Core
+
+    %% Core Service Connections
+    RFIDService --> Integration
+    PrepService --> Integration
+    DispatchService --> Integration
+    ReturnService --> Integration
+    CheckInService --> Integration
+    SettingsService --> Integration
+
+    %% Data Layer Connections
+    Core --> Models
+    Core --> Cache
+    Core --> FileStorage
+
+    %% Hardware Connections
+    Reader --> Antennas
+    Antennas --> Tags
+    Reader --> RFIDService
+
+    %% External System Connections
+    CSVExport --> HireTrack
+    FTPClient --> FTP
+
+    %% Styling
+    classDef primary fill:#2374ab,stroke:#2374ab,color:#fff
+    classDef secondary fill:#ff7043,stroke:#ff7043,color:#fff
+    classDef external fill:#4caf50,stroke:#4caf50,color:#fff
+    classDef hardware fill:#9c27b0,stroke:#9c27b0,color:#fff
+
+    class Client,Server primary
+    class Integration,External secondary
+    class Hardware hardware
+    class Data external
