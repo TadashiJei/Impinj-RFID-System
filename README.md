@@ -1,218 +1,253 @@
-# RFID Integration System for HireTrack NX
-## Powered by Impinj R700 Series RAIN RFID Readers
+# RFID Cloud Management System
+## Cloud Application & Web Interface
 
 ![Version](https://img.shields.io/badge/version-1.0.0-blue.svg)
+![Node Version](https://img.shields.io/badge/node-%3E%3D16.0.0-green.svg)
 ![License](https://img.shields.io/badge/license-MIT-green.svg)
 
-## Overview
-The RFID Integration System is a cloud-based SaaS solution designed to seamlessly integrate Impinj R700 Series RAIN RFID readers with HireTrack NX software. This system enables efficient asset tracking, inventory management, and automated data collection for entertainment and event equipment rental operations.
+## System Components
 
-## Purpose
-To bridge the gap between RFID hardware capabilities and HireTrack NX software, providing real-time asset tracking and automated data collection while maintaining compatibility with existing workflows.
+### 1. Cloud Application (Backend)
+The core processing engine and API service for RFID data management.
 
-## Scope
-- Integration with Impinj R700 Series RAIN RFID Readers
-- Cloud-based data processing and storage
-- CSV export functionality for HireTrack NX compatibility
-- Real-time asset tracking and management
-- Multi-location support
-- User role management
-- Automated data collection and processing
+#### Technology Stack
+- **Runtime**: Node.js 16+
+- **Framework**: Express.js
+- **Database**: MongoDB
+- **Cache**: Redis
+- **Message Queue**: RabbitMQ
+- **Cloud Provider**: AWS/Azure/GCP
 
-## Goals
-1. Streamline asset tracking and inventory management
-2. Reduce manual data entry and human error
-3. Improve operational efficiency
-4. Enable real-time asset visibility
-5. Facilitate seamless data integration with HireTrack NX
-6. Provide accurate reporting and analytics
-
-## System Architecture
-
-### Backend Stack
-- Node.js
-- Express.js
-- MongoDB
-- AWS S3 (file storage)
-- Socket.IO (real-time communications)
-
-### Frontend Stack
-- React.js
-- Material-UI
-- Redux
-- Chart.js
-
-## Core Modules
-
-### 1. RFID Reader Management
-- Reader configuration and setup
-- Real-time status monitoring
-- Firmware updates
-- Performance analytics
-- Multi-reader support
-
-### 2. Settings Module
-- **FTP Configuration**
-  - Server settings
-  - Credentials management
-  - Connection testing
-  - Automated sync scheduling
-  
-- **File Path Configuration**
-  - CSV export locations
-  - Backup directories
-  - Log file paths
-  
-- **User Management**
-  - Role-based access control
-  - Employee profiles
-  - Activity logging
-  - Permissions management
-
-### 3. Preparation Module
-Features:
-- New preparation entry
-- Bulk item scanning
-- Edit existing entries
-- Delete entries
-- Export to CSV
-- Advanced search
-- Real-time status updates
-- Photo documentation
-- Notes and comments
-
-### 4. Dispatch Module
-Features:
-- Create dispatch orders
-- Scan items for dispatch
-- Verification checks
-- Documentation
-- Export capabilities
-- Search functionality
-- Status tracking
-- Chain of custody
-
-### 5. Return Module
-Features:
-- Process returns
-- Condition assessment
-- Damage documentation
-- Missing item tracking
-- Export reports
-- Search capabilities
-- Integration with billing
-- Automated notifications
-
-### 6. Check-In Module
-Features:
-- Rapid item scanning
-- Condition verification
-- Location assignment
-- Status updates
-- Export functionality
-- Search capabilities
-- Maintenance flagging
-- Integration with inventory
-
-### Additional Features
-
-#### Reporting & Analytics
-- Custom report generation
-- Data visualization
-- Performance metrics
-- Inventory analytics
-- Usage patterns
-- Loss prevention statistics
-
-#### Integration Services
-- HireTrack NX compatibility layer
-- CSV file generation
-- Data mapping
-- Error handling
-- Retry mechanisms
-- Validation rules
-
-#### Security Features
-- End-to-end encryption
-- Role-based access
+#### Key Features
+- Real-time RFID data processing
+- REST API endpoints
+- WebSocket support for live updates
+- Data aggregation and analytics
+- HireTrack NX integration
+- Multi-tenant support
+- Role-based access control
 - Audit logging
-- Session management
-- API authentication
-- Data backup
+- Automated reporting
 
-## Installation & Setup
+#### API Endpoints
 
-```bash
-# Clone repository
-git clone https://github.com/TadashiJei/Impinj-RFID-System.git
+```plaintext
+Base URL: https://api.rfid-system.com/v1
 
-# Install dependencies
-npm install
+Authentication
+POST   /auth/login
+POST   /auth/refresh
+POST   /auth/logout
 
-# Configure environment
-cp .env.example .env
+RFID Management
+GET    /rfid/readers
+POST   /rfid/readers
+GET    /rfid/readers/:id
+PUT    /rfid/readers/:id
+DELETE /rfid/readers/:id
 
-# Start development server
-npm run dev
+Data Management
+GET    /data/readings
+POST   /data/readings
+GET    /data/analytics
+GET    /data/reports
 
-# Build for production
-npm run build
+Integration
+POST   /integration/hiretrack/export
+GET    /integration/status
 ```
 
-## Configuration
-
-### Environment Variables
+#### Environment Configuration
 ```env
+# Server
 NODE_ENV=production
 PORT=3000
+API_VERSION=v1
+
+# Database
 MONGODB_URI=mongodb://localhost:27017/rfid_system
-AWS_ACCESS_KEY=your_access_key
-AWS_SECRET_KEY=your_secret_key
-RFID_READER_IP=192.168.1.100
+REDIS_URL=redis://localhost:6379
+
+# Authentication
+JWT_SECRET=your_jwt_secret
+JWT_EXPIRES_IN=24h
+
+# AWS Configuration
+AWS_ACCESS_KEY_ID=your_access_key
+AWS_SECRET_ACCESS_KEY=your_secret_key
+AWS_REGION=us-west-2
+
+# HireTrack NX Integration
+HIRETRACK_API_URL=https://hiretrack-api.example.com
+HIRETRACK_API_KEY=your_api_key
 ```
 
-### RFID Reader Setup
-1. Configure reader IP address
-2. Set power levels
-3. Configure antenna settings
-4. Test connectivity
-5. Verify read rates
+### 2. Web Application (Frontend)
+User interface for system management and monitoring.
 
-## Usage
+#### Technology Stack
+- **Framework**: React 18+
+- **State Management**: Redux Toolkit
+- **UI Framework**: Material-UI
+- **Charts**: Recharts
+- **API Client**: Axios
+- **Real-time**: Socket.io-client
 
-### Basic Operations
-1. Start the system
-2. Configure RFID readers
-3. Set up user roles
-4. Configure export settings
-5. Begin scanning operations
+#### Key Features
+- Responsive dashboard
+- Real-time RFID monitoring
+- Interactive data visualization
+- Equipment tracking
+- Report generation
+- System configuration
+- User management
+- Dark/Light theme
+- Offline support
 
-### Data Export
-- Automated CSV generation
-- Manual export triggers
-- Customizable field mapping
-- Error handling
-- Backup creation
+#### Application Structure
+```plaintext
+src/
+├── components/          # Reusable UI components
+├── features/           # Feature-based modules
+├── hooks/             # Custom React hooks
+├── layouts/           # Page layouts
+├── pages/             # Route pages
+├── services/          # API services
+├── store/             # Redux store
+├── theme/             # UI theming
+└── utils/             # Utility functions
+```
 
-## Troubleshooting
+#### Environment Configuration
+```env
+# API Configuration
+REACT_APP_API_URL=https://api.rfid-system.com/v1
+REACT_APP_WS_URL=wss://api.rfid-system.com
 
-### Common Issues
-1. Reader connectivity problems
-2. CSV export errors
-3. Data synchronization issues
-4. Performance bottlenecks
+# Feature Flags
+REACT_APP_ENABLE_ANALYTICS=true
+REACT_APP_ENABLE_NOTIFICATIONS=true
 
-### Solutions
-- Network diagnostics
-- Log analysis
+# Theme
+REACT_APP_DEFAULT_THEME=light
+```
+
+## Getting Started
+
+### Prerequisites
+- Node.js >= 16.0.0
+- MongoDB >= 4.4
+- Redis >= 6.0
+- Yarn or npm
+
+### Installation
+
+1. **Clone the repository**
+```bash
+git clone https://github.com/yourusername/rfid-cloud-system.git
+cd rfid-cloud-system
+```
+
+2. **Install Backend Dependencies**
+```bash
+cd backend
+yarn install
+```
+
+3. **Install Frontend Dependencies**
+```bash
+cd frontend
+yarn install
+```
+
+4. **Configure Environment**
+```bash
+cp .env.example .env
+# Edit .env with your configuration
+```
+
+5. **Start Development Servers**
+```bash
+# Backend
+yarn dev:server
+
+# Frontend
+yarn dev:client
+```
+
+### Production Deployment
+
+#### Backend Deployment
+```bash
+cd backend
+yarn build
+yarn start:prod
+```
+
+#### Frontend Deployment
+```bash
+cd frontend
+yarn build
+# Deploy build folder to your hosting service
+```
+
+## Development Guidelines
+
+### Code Style
+- ESLint configuration
+- Prettier formatting
+- TypeScript for type safety
+- Jest for testing
+- Husky for pre-commit hooks
+
+### Branch Strategy
+- main: Production-ready code
+- develop: Development integration
+- feature/*: New features
+- bugfix/*: Bug fixes
+- release/*: Release preparation
+
+### Testing
+```bash
+# Run all tests
+yarn test
+
+# Run with coverage
+yarn test:coverage
+
+# Run specific tests
+yarn test:unit
+yarn test:integration
+```
+
+## Monitoring & Logging
+
+### Backend Monitoring
+- Application metrics
 - Error tracking
 - Performance monitoring
+- Resource utilization
+- API usage statistics
 
-## Support
-For technical support, contact:
-- Email: support@example.com
-- Phone: +1 (555) 123-4567
-- Hours: 24/7
+### Frontend Monitoring
+- User analytics
+- Error tracking
+- Performance metrics
+- Feature usage
+- User behavior
+
+## Support & Documentation
+
+### API Documentation
+- Swagger UI: `/api/docs`
+- Postman Collection: `docs/postman`
+- API Reference: `docs/api`
+
+### Additional Resources
+- [Deployment Guide](docs/deployment.md)
+- [Development Guide](docs/development.md)
+- [API Reference](docs/api-reference.md)
+- [Troubleshooting](docs/troubleshooting.md)
 
 ## License
-Copyright © 2024 Tadashi Jei. All rights reserved.
+Copyright © 2024. All rights reserved.
