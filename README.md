@@ -210,8 +210,8 @@ RFID_READER_IP=192.168.1.100
 
 ## Support
 For technical support, contact:
-- Email: support@example.com
-- Phone: +1 (555) 123-4567
+- Email: support@tadashijei.com
+- Phone: +63 998-370-8168
 - Hours: 24/7
 
 ## License
